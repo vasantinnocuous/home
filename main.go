@@ -9,7 +9,27 @@ import (
 	"strings"
 	
 	"github.com/PuerkitoBio/goquery"
+	"github.com/gocolly/colly/v2"
 )
+
+func goLogin() {
+    // create a new collector
+    c := colly.NewCollector()
+
+    // authenticate
+    err := c.Post("http://github.com/login", map[string]string{"username": "admin123", "password": "admin456"})
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    // attach callbacks after login
+    c.OnResponse(func(r *colly.Response) {
+        log.Println("response received", r.StatusCode)
+    })
+
+    // start scraping
+    c.Visit("https://github.com/")
+}
 
 func goGet() {
 	var headings, row []string
@@ -64,7 +84,9 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    defer response.Body.Close()
+	defer response.Body.Close()
+	
+	
 
     // Get the response body as a string
     bodyInBytes, err := ioutil.ReadAll(response.Body)
@@ -86,7 +108,9 @@ func main() {
 
     pageTitle := []byte(pageContent[titleStartingIndex:titleEndingIndex])
 	fmt.Printf("Page title: %s\n", pageTitle)
+
 	
 	goGet()
+	goLogin()
 }
 
