@@ -18,7 +18,7 @@ func goLogin() {
     // create a new collector
     c := colly.NewCollector()
 
-    // authenticate
+    // authentication 
     err := c.Post("http://github.com/login", map[string]string{"username": "admin123", "password": "admin456"})
     if err != nil {
         log.Fatal(err)
@@ -29,7 +29,7 @@ func goLogin() {
         log.Println("response received", r.StatusCode)
     })
 
-    // start scraping
+    // start scraping the website 
     c.Visit("https://github.com/")
 }
 
