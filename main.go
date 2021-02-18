@@ -12,6 +12,8 @@ import (
 	"github.com/gocolly/colly/v2"
 )
 
+
+// Login Page 
 func goLogin() {
     // create a new collector
     c := colly.NewCollector()
@@ -31,6 +33,8 @@ func goLogin() {
     c.Visit("https://github.com/")
 }
 
+
+//Heading Count 
 func goGet() {
 	var headings, row []string
 	var rows [][]string
@@ -92,7 +96,7 @@ func main() {
     bodyInBytes, err := ioutil.ReadAll(response.Body)
     pageContent := string(bodyInBytes)
 
-    // substring 
+    
     titleStartingIndex := strings.Index(pageContent, "<title>")
     if titleStartingIndex == -1 {
         fmt.Println("No title found")
@@ -106,6 +110,7 @@ func main() {
         os.Exit(0)
     }
 
+	//Page title
     pageTitle := []byte(pageContent[titleStartingIndex:titleEndingIndex])
 	fmt.Printf("Page title: %s\n", pageTitle)
 
